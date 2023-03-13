@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title> Flicks</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">  
+  </head>
+  <body>
+    <div class="container">
+      <h1>New Flicks</h1>
+
+      <form method="POST" action="/" enctype="multipart/form-data" id="myForm">
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" class="form-control" id="title" name="title">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea class="form-control" id="description" name="description"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="tags">Tags:</label>
+          <input type="text" class="form-control" id="tags" name="tags">
+        </div>
+
+        <div class="form-group">
+          <label for="image">Image:</label>
+          <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+      <hr>
+
+      <% if (flicks.length > 0) { %>
+        <table class="table col-md-12">
+          <thead>
+            <tr>
+              <h1>My Flicks</h1>
+              <th>EIB</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Tags</th>
+              <th>Image</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (let flick of flicks) { %>
+              <tr>
+                <td><%= flick.id %></td>
+                <td><%= flick.title %></td>
+                <td><%= flick.description %></td>
+                <td><%= flick.tags %></td>
+                <td><img src="/<%= flick.imageFileName %>" alt="Flick image" style="width: 50%; height: 50%;"></td>
+                <td>
+                  <form method="POST" action="/<%= flick.id %>/delete">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+                <td>
+                  <form method="GET" action="/<%= flick.id %>/edit">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                  </form>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+        
+        
+
+      <% } else { %>
+        <p>No flicks yet.</p>
+      <% } %>
+      
+
+    </div>
+    <script>
+      const form = document.querySelector("#myForm");
+      const fileInput = document.querySelector("#image");
+    
+      form.addEventListener("submit", (event) => {
+        if (fileInput.files.length === 0) {
+          event.preventDefault();
+          alert("Please select a file");
+        }
+      });
+    </script>    
+  </body>
+</html>
